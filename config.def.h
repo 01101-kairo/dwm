@@ -44,35 +44,30 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define ALT Mod1Mask
 
-#define TAGKEYS(KEY, TAG)                                        \
-{MODKEY, KEY, view, {.ui = 1 << TAG}},                         \
-{MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}}, \
-{MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},          \
+#define TAGKEYS(KEY, TAG)\
+{MODKEY, KEY, view, {.ui = 1 << TAG}},\
+{MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},\
+{MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},\
 {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)               \
-{                              \
-    .v = (const char *[]) {      \
-        "/bin/sh", "-c", cmd, NULL \
-    }                            \
+#define SHCMD(cmd)\
+{\
+    .v = (const char *[]) {\
+        "/bin/sh", "-c", cmd, NULL\
+    }\
 }
 
-/*************************************************************************/
-/*******************************[commands]*******************************/
-/***********************************************************************/
-
+/********************************************************************* commands*/
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"dmenu_run", "-i",     "-m",      dmenumon,
+static const char *dmenucmd[] = {"dmenu_run", "-i",     "-m", dmenumon,
     "-fn", dmenufont,   "-nb",    "#353c4b", "-nf",     "#fff", "-sb",       "#77d5f0", "-sf",     "#353c4b", NULL};
 static const char *termcmd[] = {"xterm", NULL};
 static const char *browser[] = {"chromium", NULL};
 static const char *teamscmd[] = {"teams-for-linux", NULL};
 
-/***********************************************************************/
-/*****************************[aplicativos]****************************/
-/*********************************************************************/
-/* modifier						    key        function        argument */
+/****************************************************************** atalhos dwm
+modifier						    key        function        argument */
 static Key keys[] = {
 
     /* [App's] */
@@ -95,77 +90,66 @@ static Key keys[] = {
     {ALT, XK_Delete, spawn, SHCMD("~/.config/dwm/scripts/powerOff")},
     {MODKEY, XK_n, spawn, SHCMD("~/.config/rofi/scripts/rofi-wifi-menu.sh")},
 
-    {0, XK_Print, spawn,
-        SHCMD("sleep 2; scrot '%Y-%m-%d-%S_%wx%h.png' -e 'mv $f "
-                "$$HOME/Pictures/screenshots/'")},
-        {ALT, XK_p, spawn, SHCMD("flameshot gui")
-            /* SHCMD("sleep 1; scrot -s '%Y-%m-%d-%S_$wx$h.png' -e 'mv $f " */
-            /*       "$$HOME/Pictures/screenshots/'") */
-        },
-        {ALT, XK_g, spawn, SHCMD("exec setxkbmap -query | grep us && setxkbmap -layout br || setxkbmap -layout us;pkill "
-                "-RTMIN+13 dwmblocks")},
-        /* [ Sreen brightness controls ] */
-        {ALT, XK_Up, spawn, SHCMD("brightnessctl set 50+;brightnessctl l|grep -oP \"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
-        {ALT, XK_Down, spawn, SHCMD("brightnessctl set 50-;brightnessctl l|grep -oP \"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
-        {0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 20")},
-        {0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 20")},
+    {0, XK_Print, spawn, SHCMD("sleep 2; scrot '%Y-%m-%d-%S_%wx%h.png' -e 'mv $f $$HOME/Pictures/screenshots/'")},
+    {ALT, XK_p, spawn, SHCMD("flameshot gui")},
+    /* SHCMD("sleep 1; scrot -s '%Y-%m-%d-%S_$wx$h.png' -e 'mv $f " $$HOME/Pictures/screenshots/'") */
+    {ALT, XK_g, spawn, SHCMD("exec setxkbmap -query | grep us && setxkbmap -layout br || setxkbmap -layout us;pkill -RTMIN+13 dwmblocks")},
+    /* [ Sreen brightness controls ] */
+    {ALT, XK_Up, spawn, SHCMD("brightnessctl set 50+;brightnessctl l|grep -oP \"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
+    {ALT, XK_Down, spawn, SHCMD("brightnessctl set 50-;brightnessctl l|grep -oP \"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
+    {0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 20")},
+    {0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 20")},
 
-        /* [Play Midia] */
-        {0, XF86XK_AudioPrev, spawn, SHCMD("playerctl previous")},
-        {0, XF86XK_AudioNext, spawn, SHCMD("playerctl next")},
-        {0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause")},
+    /* [Play Midia] */
+    {0, XF86XK_AudioPrev, spawn, SHCMD("playerctl previous")},
+    {0, XF86XK_AudioNext, spawn, SHCMD("playerctl next")},
+    {0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause")},
 
-        /* [ Sreen volume controls ] */
-        {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer set Master 5%+;pkill -RTMIN+10 dwmblocks")},
-        {0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer set Master 5%-;pkill -RTMIN+10 dwmblocks")},
-        {0, XF86XK_AudioMute, spawn, SHCMD("amixer set Master toggle;pkill -RTMIN+10 dwmblocks")},
+    /* [ Sreen volume controls ] */
+    {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer set Master 5%+;pkill -RTMIN+10 dwmblocks")},
+    {0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer set Master 5%-;pkill -RTMIN+10 dwmblocks")},
+    {0, XF86XK_AudioMute, spawn, SHCMD("amixer set Master toggle;pkill -RTMIN+10 dwmblocks")},
 
-        /* [ Sreen volume microphone controls ] */
-        {ALT, XK_equal, spawn, SHCMD("amixer set Capture 5%+;pkill -RTMIN+11 dwmblocks")},
-        {ALT, XK_minus, spawn, SHCMD("amixer set Capture 5%-;pkill -RTMIN+11 dwmblocks")},
-        {ALT, XK_0, spawn, SHCMD("amixer set Capture toggle;pkill -RTMIN+11 dwmblocks")},
-        {0, XF86XK_AudioStop, spawn, SHCMD("rofi -modi \"clipboard:greenclip print\" -show clipboard " "-run-command '{cmd}'")},
+    /* [ Sreen volume microphone controls ] */
+    {ALT, XK_equal, spawn, SHCMD("amixer set Capture 5%+;pkill -RTMIN+11 dwmblocks")},
+    {ALT, XK_minus, spawn, SHCMD("amixer set Capture 5%-;pkill -RTMIN+11 dwmblocks")},
+    {ALT, XK_0, spawn, SHCMD("amixer set Capture toggle;pkill -RTMIN+11 dwmblocks")},
+    {0, XF86XK_AudioStop, spawn, SHCMD("rofi -modi \"clipboard:greenclip print\" -show clipboard " "-run-command '{cmd}'")},
 
-        /***********************************************************************/
-        /*****************************[atalhos dwm]****************************/
-        /*********************************************************************/
-
-        /*set layouts*/
-        {ALT, XK_t, setlayout, {.v = &layouts[0]}},
-        {ALT, XK_f, setlayout, {.v = &layouts[1]}},
-        {ALT, XK_m, setlayout, {.v = &layouts[2]}},
-        /*atalhos*/
-        {MODKEY, XK_space, setlayout, {0}},
-        {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
-        {MODKEY, XK_i, incnmaster, {.i = +1}},
-        {MODKEY | ShiftMask, XK_i, incnmaster, {.i = -1}},
-        {MODKEY | ShiftMask, XK_j, rotatestack, {.i = +1}},
-        {MODKEY | ShiftMask, XK_k, rotatestack, {.i = -1}},
-        {MODKEY, XK_j, focusstack, {.i = +1}},
-        {MODKEY, XK_k, focusstack, {.i = -1}},
-        {MODKEY, XK_h, setmfact, {.f = -0.05}},
-        {MODKEY, XK_l, setmfact, {.f = +0.05}},
-        {MODKEY, XK_0, view, {.ui = ~0}},
-        {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
-        {MODKEY, XK_comma, focusmon, {.i = -1}},
-        {MODKEY, XK_period, focusmon, {.i = +1}},
-        {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
-        {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
-        {MODKEY | ShiftMask, XK_Return, zoom, {0}},
-        {MODKEY, XK_Tab, view, {0}},
-        {MODKEY, XK_g, togglebar, {0}},
-        {MODKEY, XK_q, killclient, {0}},
-        {MODKEY | ShiftMask, XK_q, quit, {0}},
-        /*etiqueta*/
-        TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4)
-            TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
+    /*set layouts*/
+    {ALT, XK_t, setlayout, {.v = &layouts[0]}},
+    {ALT, XK_f, setlayout, {.v = &layouts[1]}},
+    {ALT, XK_m, setlayout, {.v = &layouts[2]}},
+    /*atalhos*/
+    {MODKEY, XK_space, setlayout, {0}},
+    {MODKEY | ShiftMask, XK_space, togglefloating, {0}},
+    {MODKEY, XK_i, incnmaster, {.i = +1}},
+    {MODKEY | ShiftMask, XK_i, incnmaster, {.i = -1}},
+    {MODKEY | ShiftMask, XK_j, rotatestack, {.i = +1}},
+    {MODKEY | ShiftMask, XK_k, rotatestack, {.i = -1}},
+    {MODKEY, XK_j, focusstack, {.i = +1}},
+    {MODKEY, XK_k, focusstack, {.i = -1}},
+    {MODKEY, XK_h, setmfact, {.f = -0.05}},
+    {MODKEY, XK_l, setmfact, {.f = +0.05}},
+    {MODKEY, XK_0, view, {.ui = ~0}},
+    {MODKEY | ShiftMask, XK_0, tag, {.ui = ~0}},
+    {MODKEY, XK_comma, focusmon, {.i = -1}},
+    {MODKEY, XK_period, focusmon, {.i = +1}},
+    {MODKEY | ShiftMask, XK_comma, tagmon, {.i = -1}},
+    {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
+    {MODKEY | ShiftMask, XK_Return, zoom, {0}},
+    {MODKEY, XK_Tab, view, {0}},
+    {MODKEY, XK_g, togglebar, {0}},
+    {MODKEY, XK_q, killclient, {0}},
+    {MODKEY | ShiftMask, XK_q, quit, {0}},
+    /*etiqueta*/
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) 
+    TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) 
+    TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
 };
 
-/************************************************************************/
-/**************************[button definitions]*************************/
-/**********************************************************************/
-
-/* click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+/*********************************************************** button definitions
+click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
     {ClkLtSymbol, 0, Button1, setlayout, {0}},
@@ -181,11 +165,9 @@ static Button buttons[] = {
     {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
 
-/************************************************************************/
-/******************************[Rules rules]****************************/
-/**********************************************************************/
-
+/****************************************************************** Rules rules*/
 static const Rule rules[] = {
+
     /* xprop(1):
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
