@@ -10,17 +10,17 @@ if [[ "${status}" == "on" ]]; then
 else
 	MICROPHONE=$(echo "0">$HOME/.config/bin/.microphone )
 fi
-
+BLUE=$($HOME/.config/bin/on:offBlu > $HOME/.config/bin/.on:off)
 LUZ=$(brightnessctl l|grep -oP "[^\(]*%">$HOME/.config/bin/.luz )
 AUDIO=$(echo "${volume}%">$HOME/.config/bin/.audio )
 
-CHOICE=$(echo -e " Reboot\n PowerOff\n LogOff\n Lock\n Coffe"| dmenu -i -p " Power-Menu"\
+CHOICE=$(echo -e " LogOff\n Lock\n Coffe\n Reboot\n PowerOff"| dmenu -i -p " Power-Menu"\
     -fn fontawesome:size=13  -nb "#282A36" -nf "#fff" -sb "#77d5f0" -sf "#282A36")
 
 case "$CHOICE" in
 	\ Reboot)$LUZ && $AUDIO && $AUDIO && systemctl reboot;;
 	\ PowerOff)$LUZ && $AUDIO && $AUDIO && systemctl poweroff -i;;
-	\ LogOff)$LUZ && $AUDIO && $AUDIO && killall dwm;;
+	\ LogOff)$LUZ && $AUDIO && $AUDIO && killall dwm;;
 	# \ Lock)~/.config/i3/script/i3lock.sh;;
 	\ Lock)i3lock -i $HOME/Pictures/.wallpapers/zombi.png;;
 	\ Coffe)systemctl suspend;;

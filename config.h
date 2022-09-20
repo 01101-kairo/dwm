@@ -14,15 +14,15 @@ static const int topbar = 1;      /* 0 means bottom bar */
 static const char *fonts[] = {"fontawesome:size=13"};
 static const char dmenufont[] = "fontawesome:size=13";
 
-static const char col_gray1[] = "#282a36";
-static const char col_gray2[] = "#77d5f0";
-static const char col_gray3[] = "#fff";
+static const char col_gray1[] = "#0E1219";
+static const char col_gray2[] = "#41A7FC";
+static const char col_gray3[] = "#F65866";
 static const char col_gray4[] = "#000000000000";
 
 static const char *colors[][3] = {
     /*               fg         bg         border   */
     [SchemeNorm] = {col_gray3, col_gray1, col_gray1},
-    [SchemeSel] = {col_gray1, col_gray2, col_gray4},
+    [SchemeSel] = {col_gray2, col_gray1, col_gray4},
 };
 
 /* tagging */
@@ -139,9 +139,9 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_period, tagmon, {.i = +1}},
     {MODKEY | ShiftMask, XK_Return, zoom, {0}},
     {MODKEY, XK_Tab, view, {0}},
-    {MODKEY, XK_g, togglebar, {0}},
     {MODKEY, XK_q, killclient, {0}},
-    {MODKEY | ShiftMask, XK_q, quit, {0}},
+    // {MODKEY, XK_g, togglebar, {0}},
+    // {MODKEY | ShiftMask, XK_q, quit, {0}},
     /*etiqueta*/
     TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) 
     TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) 
