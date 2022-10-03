@@ -48,7 +48,7 @@ Power() {
 }
 
 CHOICE=$(echo -e " Power$(Power)\n Connect\n Sendfile\n Pairable$(pairable_on)"| dmenu -i -p "  Bluetooth: "\
-    -fn fontawesome:size=13  -nb "#282A36" -nf "#fff" -sb "#77d5f0" -sf "#282A36")
+    -fn fontawesome:size=13  -nb "#21283B" -nf "#f6f6f6" -sb "#21283B" -sf "#77D5F0")
 	case "$CHOICE" in
 		\ PowerOff)bluetoothctl power on ;;
 		\ PowerOn)bluetoothctl power off ;;

@@ -19,9 +19,9 @@ static const int topbar = 1;      /* 0 means bottom bar */
 static const char *fonts[] = {"fontawesome:size=13"};
 static const char dmenufont[] = "fontawesome:size=13";
 
-static const char col_gray1[] = "#0E1219";
-static const char col_gray2[] = "#41A7FC";
-static const char col_gray3[] = "#F65866";
+static const char col_gray1[] = "#21283B";
+static const char col_gray2[] = "#77D5F0";
+static const char col_gray3[] = "#F6F6F6";
 static const char col_gray4[] = "#000000000000";
 
 static const char *colors[][3] = {
@@ -34,12 +34,10 @@ static const char *colors[][3] = {
 static const char *tags[] = {"𝟭", "𝟮", "𝟯", "𝟰", "𝟱", "𝟲", "𝟳", "𝟴", "𝟵"};
 
 /* layout(s) */
-static const int lockfullscreen =
-    1;                        /* 1 will force focus on the fullscreen window */
-static const int nmaster = 1; /* number of clients in master area */
-static const int resizehints =
-    0; /* 1 means respect size hints in tiled resizals */
-static const float mfact = 0.55; /* factor of master area size [0.05..0.95] */
+static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int nmaster = 1;        /* number of clients in master area */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
+static const float mfact = 0.55;     /* factor of master area size [0.05..0.95] */
 static const Layout layouts[] = {
     /* symbol     arrange function */
     {"[]=", tile}, /* first entry is default */
@@ -51,25 +49,26 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define ALT Mod1Mask
 
-#define TAGKEYS(KEY, TAG)                                                      \
-  {MODKEY, KEY, view, {.ui = 1 << TAG}},                                       \
-      {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},               \
-      {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},                        \
-      {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+#define TAGKEYS(KEY, TAG)                                          \
+    {MODKEY, KEY, view, {.ui = 1 << TAG}},                         \
+        {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}}, \
+        {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},          \
+        {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)                                                             \
-  {                                                                            \
-    .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL }                       \
-  }
+#define SHCMD(cmd)                     \
+    {                                  \
+        .v = (const char *[]) {        \
+            "/bin/sh", "-c", cmd, NULL \
+        }                              \
+    }
 
 /*********************************************************************
  * commands*/
-static char dmenumon[2] =
-    "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {
-    "dmenu_run", "-i",   "-m",  dmenumon,  "-fn", dmenufont, "-nb", "#353c4b",
-    "-nf",       "#fff", "-sb", "#77d5f0", "-sf", "#353c4b", NULL};
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = {"dmenu_run", "-i",      "-m",      dmenumon,  "-fn",
+                                 dmenufont,   "-nb",     "#353c4b", "-nf",     "#fff",
+                                 "-sb",       "#77d5f0", "-sf",     "#353c4b", NULL};
 static const char *termcmd[] = {"xterm", NULL};
 static const char *browser[] = {"chromium", NULL};
 static const char *teamscmd[] = {"teams-for-linux", NULL};
@@ -81,12 +80,11 @@ static Key keys[] = {
 
     /* [App's] */
     {MODKEY, XK_f, spawn, {.v = browser}},
-    {0, XF86XK_HomePage, spawn,
-     SHCMD("cat $HOME/.config/bin/.tokenGit | xclip -sel clip")},
+    {0, XF86XK_HomePage, spawn, SHCMD("cat $HOME/.config/bin/.tokenGit | xclip -sel clip")},
     {0, XF86XK_Mail, spawn, {.v = teamscmd}},
     {0, XF86XK_Explorer, spawn, SHCMD("~/.config/bin/arand.sh")},
     {0, XF86XK_Tools, spawn, SHCMD("~/.config/bin/pavuqt.sh")},
-    {0, XF86XK_Calculator, spawn, SHCMD("xterm -e python")},
+    {0, XF86XK_Calculator, spawn, SHCMD("xterm -e node")},
     {MODKEY, XK_e, spawn, SHCMD("xterm -e ranger")},
     {MODKEY, XK_d, spawn, SHCMD("rofi -show drun")},
     {ControlMask, XK_Escape, spawn, SHCMD("~/.config/bin/thop.sh")},
@@ -95,13 +93,12 @@ static Key keys[] = {
     {MODKEY, XK_Return, spawn, {.v = termcmd}},
 
     {ALT, XK_Tab, spawn, SHCMD("rofi -show")},
-    {ALT, XK_b, spawn,
-     SHCMD("~/.config/rofi/scripts/rofi-bluetooth;pkill -RTMIN+9 dwmblocks")},
-    {MODKEY, XK_b, spawn,
-     SHCMD("~/.config/dwm/scripts/bluedevil;pkill -RTMIN+9 dwmblocks")},
+    {ALT, XK_b, spawn, SHCMD("~/.config/rofi/scripts/rofi-bluetooth;pkill -RTMIN+9 dwmblocks")},
+    {MODKEY, XK_b, spawn, SHCMD("~/.config/dwm/scripts/bluedevil;pkill -RTMIN+9 dwmblocks")},
     {ALT, XK_Delete, spawn, SHCMD("~/.config/dwm/scripts/powerOff")},
     {MODKEY, XK_n, spawn, SHCMD("~/.config/rofi/scripts/rofi-wifi-menu.sh")},
 
+    {MODKEY, XK_g, spawn, SHCMD("~/.config/dwm/scripts/screenRecorder")},
     {0, XK_Print, spawn,
      SHCMD("sleep 2; scrot '%Y-%m-%d-%S_%wx%h.png' -e 'mv $f "
            "$$HOME/Pictures/screenshots/'")},
@@ -111,6 +108,7 @@ static Key keys[] = {
     {ALT, XK_g, spawn,
      SHCMD("exec setxkbmap -query | grep us && setxkbmap -layout br || "
            "setxkbmap -layout us;pkill -RTMIN+13 dwmblocks")},
+
     /* [ Sreen brightness controls ] */
     {ALT, XK_Up, spawn,
      SHCMD("brightnessctl set 50+;brightnessctl l|grep -oP "
@@ -127,20 +125,14 @@ static Key keys[] = {
     {0, XF86XK_AudioPlay, spawn, SHCMD("playerctl play-pause")},
 
     /* [ Sreen volume controls ] */
-    {0, XF86XK_AudioRaiseVolume, spawn,
-     SHCMD("amixer set Master 5%+;pkill -RTMIN+10 dwmblocks")},
-    {0, XF86XK_AudioLowerVolume, spawn,
-     SHCMD("amixer set Master 5%-;pkill -RTMIN+10 dwmblocks")},
-    {0, XF86XK_AudioMute, spawn,
-     SHCMD("amixer set Master toggle;pkill -RTMIN+10 dwmblocks")},
+    {0, XF86XK_AudioRaiseVolume, spawn, SHCMD("amixer set Master 5%+;pkill -RTMIN+10 dwmblocks")},
+    {0, XF86XK_AudioLowerVolume, spawn, SHCMD("amixer set Master 5%-;pkill -RTMIN+10 dwmblocks")},
+    {0, XF86XK_AudioMute, spawn, SHCMD("amixer set Master toggle;pkill -RTMIN+10 dwmblocks")},
 
     /* [ Sreen volume microphone controls ] */
-    {ALT, XK_equal, spawn,
-     SHCMD("amixer set Capture 5%+;pkill -RTMIN+11 dwmblocks")},
-    {ALT, XK_minus, spawn,
-     SHCMD("amixer set Capture 5%-;pkill -RTMIN+11 dwmblocks")},
-    {ALT, XK_0, spawn,
-     SHCMD("amixer set Capture toggle;pkill -RTMIN+11 dwmblocks")},
+    {ALT, XK_equal, spawn, SHCMD("amixer set Capture 5%+;pkill -RTMIN+11 dwmblocks")},
+    {ALT, XK_minus, spawn, SHCMD("amixer set Capture 5%-;pkill -RTMIN+11 dwmblocks")},
+    {ALT, XK_0, spawn, SHCMD("amixer set Capture toggle;pkill -RTMIN+11 dwmblocks")},
     {0, XF86XK_AudioStop, spawn,
      SHCMD("rofi -modi \"clipboard:greenclip print\" -show clipboard "
            "-run-command '{cmd}'")},
@@ -169,12 +161,11 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_Return, zoom, {0}},
     {MODKEY, XK_Tab, view, {0}},
     {MODKEY, XK_q, killclient, {0}},
-    // {MODKEY, XK_g, togglebar, {0}},
-    // {MODKEY | ShiftMask, XK_q, quit, {0}},
+    {MODKEY | ShiftMask, XK_g, togglebar, {0}},
+    {MODKEY | ShiftMask, XK_q, quit, {0}},
     /*etiqueta*/
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3)
-        TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7)
-            TAGKEYS(XK_9, 8)};
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4)
+        TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)};
 
 /*********************************************************** button definitions
 click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin,

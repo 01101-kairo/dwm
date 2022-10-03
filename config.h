@@ -2,11 +2,16 @@
 
 /* appearance */
 static const unsigned int borderpx = 1; /* border pixel of windows */
-static const unsigned int snap = 6;    /* snap pixel */
-static const unsigned int systraypinning = 0; /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
-static const unsigned int systrayonleft = 0; /* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int snap = 6;     /* snap pixel */
+static const unsigned int systraypinning =
+    0; /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor
+          X */
+static const unsigned int systrayonleft =
+    0; /* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing = 2; /* systray spacing */
-static const int systraypinningfailfirst = 1; /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int systraypinningfailfirst =
+    1; /* 1: if pinning fails, display systray on the first monitor, False:
+          display systray on the last monitor*/
 static const int showsystray = 1; /* 0 means no systray */
 static const int showbar = 1;     /* 0 means no bar */
 static const int topbar = 1;      /* 0 means bottom bar */
@@ -14,9 +19,9 @@ static const int topbar = 1;      /* 0 means bottom bar */
 static const char *fonts[] = {"fontawesome:size=13"};
 static const char dmenufont[] = "fontawesome:size=13";
 
-static const char col_gray1[] = "#0E1219";
-static const char col_gray2[] = "#41A7FC";
-static const char col_gray3[] = "#F65866";
+static const char col_gray1[] = "#21283B";
+static const char col_gray2[] = "#77D5F0";
+static const char col_gray3[] = "#F6F6F6";
 static const char col_gray4[] = "#000000000000";
 
 static const char *colors[][3] = {
@@ -44,39 +49,42 @@ static const Layout layouts[] = {
 #define MODKEY Mod4Mask
 #define ALT Mod1Mask
 
-#define TAGKEYS(KEY, TAG)\
-{MODKEY, KEY, view, {.ui = 1 << TAG}},\
-{MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}},\
-{MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},\
-{MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
+#define TAGKEYS(KEY, TAG)                                          \
+    {MODKEY, KEY, view, {.ui = 1 << TAG}},                         \
+        {MODKEY | ControlMask, KEY, toggleview, {.ui = 1 << TAG}}, \
+        {MODKEY | ShiftMask, KEY, tag, {.ui = 1 << TAG}},          \
+        {MODKEY | ControlMask | ShiftMask, KEY, toggletag, {.ui = 1 << TAG}},
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
-#define SHCMD(cmd)\
-{\
-    .v = (const char *[]) {\
-        "/bin/sh", "-c", cmd, NULL\
-    }\
-}
+#define SHCMD(cmd)                     \
+    {                                  \
+        .v = (const char *[]) {        \
+            "/bin/sh", "-c", cmd, NULL \
+        }                              \
+    }
 
-/********************************************************************* commands*/
+/*********************************************************************
+ * commands*/
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = {"dmenu_run", "-i",     "-m", dmenumon,
-    "-fn", dmenufont,   "-nb",    "#353c4b", "-nf",     "#fff", "-sb",       "#77d5f0", "-sf",     "#353c4b", NULL};
+static const char *dmenucmd[] = {"dmenu_run", "-i",      "-m",      dmenumon,  "-fn",
+                                 dmenufont,   "-nb",     "#353c4b", "-nf",     "#fff",
+                                 "-sb",       "#77d5f0", "-sf",     "#353c4b", NULL};
 static const char *termcmd[] = {"xterm", NULL};
 static const char *browser[] = {"chromium", NULL};
 static const char *teamscmd[] = {"teams-for-linux", NULL};
 
 /****************************************************************** atalhos dwm
-modifier						    key        function        argument */
+modifier						    key        function
+argument */
 static Key keys[] = {
 
     /* [App's] */
     {MODKEY, XK_f, spawn, {.v = browser}},
-    {0, XF86XK_HomePage, spawn,  SHCMD("cat $HOME/.config/bin/.tokenGit | xclip -sel clip")},
+    {0, XF86XK_HomePage, spawn, SHCMD("cat $HOME/.config/bin/.tokenGit | xclip -sel clip")},
     {0, XF86XK_Mail, spawn, {.v = teamscmd}},
     {0, XF86XK_Explorer, spawn, SHCMD("~/.config/bin/arand.sh")},
     {0, XF86XK_Tools, spawn, SHCMD("~/.config/bin/pavuqt.sh")},
-    {0, XF86XK_Calculator, spawn, SHCMD("xterm -e python")},
+    {0, XF86XK_Calculator, spawn, SHCMD("xterm -e node")},
     {MODKEY, XK_e, spawn, SHCMD("xterm -e ranger")},
     {MODKEY, XK_d, spawn, SHCMD("rofi -show drun")},
     {ControlMask, XK_Escape, spawn, SHCMD("~/.config/bin/thop.sh")},
@@ -90,13 +98,24 @@ static Key keys[] = {
     {ALT, XK_Delete, spawn, SHCMD("~/.config/dwm/scripts/powerOff")},
     {MODKEY, XK_n, spawn, SHCMD("~/.config/rofi/scripts/rofi-wifi-menu.sh")},
 
-    {0, XK_Print, spawn, SHCMD("sleep 2; scrot '%Y-%m-%d-%S_%wx%h.png' -e 'mv $f $$HOME/Pictures/screenshots/'")},
+    {MODKEY, XK_g, spawn, SHCMD("~/.config/dwm/scripts/screenRecorder")},
+    {0, XK_Print, spawn,
+     SHCMD("sleep 2; scrot '%Y-%m-%d-%S_%wx%h.png' -e 'mv $f "
+           "$$HOME/Pictures/screenshots/'")},
     {ALT, XK_p, spawn, SHCMD("flameshot gui")},
-    /* SHCMD("sleep 1; scrot -s '%Y-%m-%d-%S_$wx$h.png' -e 'mv $f " $$HOME/Pictures/screenshots/'") */
-    {ALT, XK_g, spawn, SHCMD("exec setxkbmap -query | grep us && setxkbmap -layout br || setxkbmap -layout us;pkill -RTMIN+13 dwmblocks")},
+    /* SHCMD("sleep 1; scrot -s '%Y-%m-%d-%S_$wx$h.png' -e 'mv $f "
+       $$HOME/Pictures/screenshots/'") */
+    {ALT, XK_g, spawn,
+     SHCMD("exec setxkbmap -query | grep us && setxkbmap -layout br || "
+           "setxkbmap -layout us;pkill -RTMIN+13 dwmblocks")},
+
     /* [ Sreen brightness controls ] */
-    {ALT, XK_Up, spawn, SHCMD("brightnessctl set 50+;brightnessctl l|grep -oP \"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
-    {ALT, XK_Down, spawn, SHCMD("brightnessctl set 50-;brightnessctl l|grep -oP \"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
+    {ALT, XK_Up, spawn,
+     SHCMD("brightnessctl set 50+;brightnessctl l|grep -oP "
+           "\"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
+    {ALT, XK_Down, spawn,
+     SHCMD("brightnessctl set 50-;brightnessctl l|grep -oP "
+           "\"[^\\(]*%\">$HOME/.config/bin/.luz;pkill -RTMIN+12 dwmblocks")},
     {0, XF86XK_MonBrightnessUp, spawn, SHCMD("xbacklight -inc 20")},
     {0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 20")},
 
@@ -114,7 +133,9 @@ static Key keys[] = {
     {ALT, XK_equal, spawn, SHCMD("amixer set Capture 5%+;pkill -RTMIN+11 dwmblocks")},
     {ALT, XK_minus, spawn, SHCMD("amixer set Capture 5%-;pkill -RTMIN+11 dwmblocks")},
     {ALT, XK_0, spawn, SHCMD("amixer set Capture toggle;pkill -RTMIN+11 dwmblocks")},
-    {0, XF86XK_AudioStop, spawn, SHCMD("rofi -modi \"clipboard:greenclip print\" -show clipboard " "-run-command '{cmd}'")},
+    {0, XF86XK_AudioStop, spawn,
+     SHCMD("rofi -modi \"clipboard:greenclip print\" -show clipboard "
+           "-run-command '{cmd}'")},
 
     /*set layouts*/
     {ALT, XK_t, setlayout, {.v = &layouts[0]}},
@@ -140,18 +161,17 @@ static Key keys[] = {
     {MODKEY | ShiftMask, XK_Return, zoom, {0}},
     {MODKEY, XK_Tab, view, {0}},
     {MODKEY, XK_q, killclient, {0}},
-    // {MODKEY, XK_g, togglebar, {0}},
-    // {MODKEY | ShiftMask, XK_q, quit, {0}},
+    {MODKEY | ShiftMask, XK_g, togglebar, {0}},
+    {MODKEY | ShiftMask, XK_q, quit, {0}},
     /*etiqueta*/
-    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) 
-    TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4) TAGKEYS(XK_6, 5) 
-    TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)
-};
+    TAGKEYS(XK_1, 0) TAGKEYS(XK_2, 1) TAGKEYS(XK_3, 2) TAGKEYS(XK_4, 3) TAGKEYS(XK_5, 4)
+        TAGKEYS(XK_6, 5) TAGKEYS(XK_7, 6) TAGKEYS(XK_8, 7) TAGKEYS(XK_9, 8)};
 
 /*********************************************************** button definitions
-click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
+click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin,
+or ClkRootWin */
 static Button buttons[] = {
-    /* click                event mask      button          function        argument */
+    /* click                event mask      button          function argument */
     {ClkLtSymbol, 0, Button1, setlayout, {0}},
     {ClkLtSymbol, 0, Button3, setlayout, {.v = &layouts[2]}},
     {ClkWinTitle, 0, Button2, zoom, {0}},
@@ -165,7 +185,7 @@ static Button buttons[] = {
     {ClkTagBar, MODKEY, Button3, toggletag, {0}},
 };
 
-/****************************************************************** Rules rules*/
+/**************************************************************** Rules rules*/
 static const Rule rules[] = {
 
     /* xprop(1):

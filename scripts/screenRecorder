@@ -1,25 +1,30 @@
 #!/bin/bash
-VIDEO=$HOME/Videos/$(date'+%d/%m/%Y/%H%M%S_%wx%h').mkv
+VIDEO=$HOME/Videos/$(date '+%d:%m:%Y:%H%M%S_%wx%h').mkv
 MONITOR=wxga
 # comando para gravar tela
 # significado do comando
 # ffmpeg -f x11grab -s <Resolucao> -r <Quadros Por Segundo> -i :0.0 -q:v <Qualidade de Video 1-5> <Arquivo de Saida>
 
+if pgrep ffmpeg; then
+    kill $(pgrep ffmpeg)
 
-CHOICE=$(echo -e "-\n-\n-\n\n"| dmenu -i -p "  Bluetooth: "\
-    -fn fontawesome:size=13  -nb "#282A36" -nf "#fff" -sb "#77d5f0" -sf "#282A36")
-    case "$CHOICE" in
-        -)# sem audio do microfone
-            ffmpeg -f x11grab -s $MONITOR -r 25 -i :0.0 -q:v 5 $VIDEO;;
-        -)# com audio do microfone
-            ffmpeg -f alsa -i pulse -f x11grab -s $MONITOR -r 25 -i :0.0 $VIDEO;;
-        -)# tela segue o mouse
-            ffmpeg -f x11grab -follow_mouse 200 -s vga -i :0.0 -f alsa -i default -c:v libx264 -r 30 -c:a flac $VIDEO;;
-        )
-            ffmpeg -y -f x11grab -s $MONITOR -i :0.0 -f alsa -i default $VIDEO;;
-        )
-            ffmpeg -y -f x11grab -s $MONITOR -i :0.0 -f alsa -i default -c:v libx264 -r 30 -c:a flac $VIDEO;;
-    esac
+else
+    CHOICE=$(echo -e "-\n-\n-"| dmenu -i -p "  Bluetooth: "\
+    -fn fontawesome:size=13  -nb "#21283B" -nf "#f6f6f6" -sb "#21283B" -sf "#77D5F0")
+            case "$CHOICE" in
+                -)# sem audio do microfone
+                    ffmpeg -f x11grab -s $MONITOR -r 25 -i :0.0 -q:v 5 $VIDEO;;
+                -)# com audio do microfone
+                    ffmpeg -f alsa -i pulse -f x11grab -s $MONITOR -r 25 -i :0.0 $VIDEO;;
+                -)# tela segue o mouse
+                    ffmpeg -f x11grab -follow_mouse 200 -s vga -i :0.0 -f alsa -i default -c:v libx264 -r 30 -c:a flac $VIDEO;;
+                # )
+                    #     ffmpeg -y -f x11grab -s $MONITOR -i :0.0 -f alsa -i default $VIDEO;;
+                # )
+                    #     ffmpeg -y -f x11grab -s $MONITOR -i :0.0 -f alsa -i default -c:v libx264 -r 30 -c:a flac $VIDEO;;
+                esac
+
+fi
 
 # Comando pra descobrir resolucao do monitor: xdpyinfo | awk '/dimensions:/ {printf $2}''
 # Código	Resolução

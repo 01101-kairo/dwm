@@ -1,7 +1,7 @@
 #!/bin/sh
 
-CHOICE=$(echo -e "\n\n"| dmenu -i -p "  screen_shot"\
-    -fn fontawesome:size=13  -nb "#282A36" -nf "#fff" -sb "#77d5f0" -sf "#282A36")
+CHOICE=$(echo -e "\n\n"| dmenu -i -p "  screen_shot"/
+-fn fontawesome:size=13  -nb "#21283B" -nf "#f6f6f6" -sb "#21283B" -sf "#77D5F0")
 	case "$CHOICE" in
 		)sleep 2; scrot '%Y-%m-%d-%S_$wx$h.png' -e 'mv $f $$HOME/Pictures/screenshots/';;
 		)sleep  1; scrot -s '%Y-%m-%d-%S_$wx$h.png' -e 'mv $f $$HOME/Pictures/screenshots/';;
