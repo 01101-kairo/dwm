@@ -15,7 +15,7 @@ LUZ=$(brightnessctl l|grep -oP "[^\(]*%">$HOME/.config/bin/.luz )
 AUDIO=$(echo "${volume}%">$HOME/.config/bin/.audio )
 
 CHOICE=$(echo -e " LogOff\n Lock\n Coffe\n Reboot\n PowerOff"| dmenu -i -p " Power-Menu"\
-    -fn fontawesome:size=13  -nb "#21283B" -nf "#f6f6f6" -sb "#21283B" -sf "#77D5F0")
+    -fn fontawesome:size=13  -nb "#0E1219" -nf "#f6f6f6" -sb "#0E1219" -sf "#77D5F0")
 
 case "$CHOICE" in
 	\ Reboot)$LUZ && $AUDIO && $AUDIO && systemctl reboot;;

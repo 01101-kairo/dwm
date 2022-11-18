@@ -10,7 +10,7 @@ if pgrep ffmpeg; then
 
 else
     CHOICE=$(echo -e "-\n-\n-"| dmenu -i -p "  Bluetooth: "\
-    -fn fontawesome:size=13  -nb "#21283B" -nf "#f6f6f6" -sb "#21283B" -sf "#77D5F0")
+    -fn fontawesome:size=13  -nb "#0E1219" -nf "#f6f6f6" -sb "#0E1219" -sf "#77D5F0")
             case "$CHOICE" in
                 -)# sem audio do microfone
                     ffmpeg -f x11grab -s $MONITOR -r 25 -i :0.0 -q:v 5 $VIDEO;;

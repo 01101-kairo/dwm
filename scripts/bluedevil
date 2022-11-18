@@ -2,58 +2,58 @@
 
 # Checks if controller is able to pair to devices
 pairable_on() {
-	if bluetoothctl show | grep -q "Pairable: yes"; then
-		echo "Pairable: on"
-		return 0
-	else
-		echo "Pairable: off"
-		return 1
-	fi
+  if bluetoothctl show | grep -q "Pairable: yes"; then
+    echo "Pairable: on"
+    return 0
+  else
+    echo "Pairable: off"
+    return 1
+  fi
 }
 
 # Toggles pairable state
 toggle_pairable() {
-	if pairable_on; then
-		bluetoothctl pairable off
-	else
-		bluetoothctl pairable on
-	fi
+  if pairable_on; then
+    bluetoothctl pairable off
+  else
+    bluetoothctl pairable on
+  fi
 }
 
 # Checks if controller is able to pair to devices
 pairable_on() {
-	if bluetoothctl show | grep -q "Pairable: yes"; then
-		echo " on"
-	else
-		echo " off"
-	fi
+  if bluetoothctl show | grep -q "Pairable: yes"; then
+    echo " on"
+  else
+    echo " off"
+  fi
 }
 
 # Checks if bluetooth controller is powered on
 power_on() {
-	if bluetoothctl show | grep -q "Powered: yes"; then
-		return 0
-	else
-		return 1
-	fi
+  if bluetoothctl show | grep -q "Powered: yes"; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 Power() {
-	# Get menu options
-	if power_on; then
-		echo "On"
-	else
-		echo "Off"
-	fi
+  # Get menu options
+  if power_on; then
+    echo "On"
+  else
+    echo "Off"
+  fi
 }
 
 CHOICE=$(echo -e " Power$(Power)\n Connect\n Sendfile\n Pairable$(pairable_on)"| dmenu -i -p "  Bluetooth: "\
-    -fn fontawesome:size=13  -nb "#21283B" -nf "#f6f6f6" -sb "#21283B" -sf "#77D5F0")
-	case "$CHOICE" in
-		\ PowerOff)bluetoothctl power on ;;
-		\ PowerOn)bluetoothctl power off ;;
-		\ Connect)bluedevil-wizard ;;
-		\ Sendfile)bluedevil-sendfile ;;
-		\ Pairable\ on)toggle_pairable ;;
-		\ Pairable\ off)toggle_pairable ;;
-	esac
+  -fn fontawesome:size=13  -nb "#0E1219" -nf "#f6f6f6" -sb "#0E1219" -sf "#77D5F0")
+  case "$CHOICE" in
+    \ PowerOff)bluetoothctl power on ;;
+    \ PowerOn)bluetoothctl power off ;;
+    \ Connect)bluedevil-wizard ;;
+    \ Sendfile)bluedevil-sendfile ;;
+    \ Pairable\ on)toggle_pairable ;;
+    \ Pairable\ off)toggle_pairable ;;
+  esac
