@@ -14,14 +14,14 @@ static const int topbar                   = 1;  /* 0 means bottom bar */
 static const char *fonts[]                = {"fontawesome:size=13"};
 static const char dmenufont[]             = "fontawesome:size=13";
 static const char col_gray1[]             = "#000000";
-static const char col_gray2[]             = "#77D5F0";
+static const char col_gray2[]             = "#f65866";
 static const char col_gray3[]             = "#F6F6F6";
 static const char col_gray4[]             = "#000000000000";
 
 static const char *colors[][3]            = {
   /*               fg         bg         border   */
   [SchemeNorm] = {col_gray3, col_gray1, col_gray1},
-  [SchemeSel]  = {col_gray2, col_gray1, col_gray4},
+  [SchemeSel]  = {col_gray1, col_gray2, col_gray4},
 };
 
 /* tagging */
@@ -33,7 +33,7 @@ static const Rule rules[] = {
      *	WM_CLASS(STRING) = instance, class
      *	WM_NAME(STRING) = title
      */
-  /* class     instance  title    tags mask  isfloating	monitor */
+ /* class     instance  title    tags mask  isfloating	monitor */
   {"chromium",  NULL, NULL,                             0, 1, -1},
   {"ranger",    NULL, NULL,                             0, 1, -1},
   {"htop",      NULL, NULL,                             0, 1, -1},
@@ -100,13 +100,13 @@ static Key keys[] = {
   {0,                   XF86XK_Tools,             spawn, SHCMD("~/.config/bin/pavuqt.sh")},
   {0,                   XF86XK_Calculator,        spawn, SHCMD("xterm -e node")},
   {MODKEY,              XK_e,                     spawn, SHCMD("xterm -e ranger")},
-  {MODKEY,              XK_d,                     spawn, SHCMD("xfce4-appfinder --collapsed")},
+  {MODKEY,              XK_d,                     spawn, SHCMD("xfce4-appfinder")},
   {ControlMask,         XK_Escape,                spawn, SHCMD("~/.config/bin/thop.sh")},
   {MODKEY,              XK_t,                     spawn, SHCMD("~/.config/bin/tt.sh")},
   {MODKEY,              XK_y,                     spawn, SHCMD("~/.config/bin/kp.sh")},
   {ALT,                 XK_b,                     spawn, SHCMD("~/.config/rofi/scripts/rofi-bluetooth;pkill -RTMIN+9 dwmblocks")},
   {MODKEY,              XK_b,                     spawn, SHCMD("~/.config/dwm/scripts/dmenu-bluetooth;pkill -RTMIN+9 dwmblocks")},
-  {ALT,                 XK_Delete,                spawn, SHCMD("xfce4-session-logout")}, // spawn, SHCMD("~/.config/dwm/scripts/powerOff")},
+  {ALT,                 XK_Delete,                spawn, SHCMD("~/.config/dwm/scripts/powerOff")}, // spawn, SHCMD("xfce4-session-logout")},
   {MODKEY,              XK_n,                     spawn, SHCMD("~/.config/rofi/scripts/rofi-wifi-menu.sh")},
   {MODKEY,              XK_g,                     spawn, SHCMD("~/.config/dwm/scripts/screenRecorder")},
   {0,                   XK_Print,                 spawn, SHCMD("sleep 2; scrot '%Y-%m-%d-%S_%wx%h.png' -e 'mv $f $$HOME/Pictures/screenshots/'")},
